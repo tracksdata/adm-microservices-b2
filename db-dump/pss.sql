@@ -50,6 +50,7 @@ CREATE TABLE `booking_record` (
   `status` varchar(255) DEFAULT NULL,
   `flight_infoid` int(11) DEFAULT NULL,
   `passenger_id` int(11) DEFAULT NULL,
+  `travellers` int(11) DEFAULT NULL,
   PRIMARY KEY (`booking_id`),
   KEY `FKqhoxty6o37iw358qo7eqryy5q` (`flight_infoid`),
   KEY `FKgdvxsjoo1fp4yvsqkovgvyii5` (`passenger_id`),
@@ -127,7 +128,7 @@ DROP TABLE IF EXISTS `fare`;
 CREATE TABLE `fare` (
   `fare_id` int(11) NOT NULL,
   `currency` varchar(255) DEFAULT NULL,
-  `fare` double NOT NULL,
+  `ticket_fare` double NOT NULL,
   PRIMARY KEY (`fare_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -168,39 +169,39 @@ CREATE TABLE `flight` (
   `origin` varchar(255) DEFAULT NULL,
   `fare_id` int(11) DEFAULT NULL,
   `flight_infoid` int(11) DEFAULT NULL,
-  `inv_id` int(11) DEFAULT NULL,
+  `inventory_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKpekyhxlpp2g4l0emd9vj9qjvc` (`fare_id`),
   KEY `FKh342xxi0c2ciiqifrhhc9g2kf` (`flight_infoid`),
-  KEY `FKi31ay2wj2odp6ij5uvfunmk0y` (`inv_id`),
+  KEY `FKi31ay2wj2odp6ij5uvfunmk0y` (`inventory_id`),
   CONSTRAINT `FKh342xxi0c2ciiqifrhhc9g2kf` FOREIGN KEY (`flight_infoid`) REFERENCES `flight_info` (`flight_infoid`),
-  CONSTRAINT `FKi31ay2wj2odp6ij5uvfunmk0y` FOREIGN KEY (`inv_id`) REFERENCES `inventory` (`inv_id`),
+  CONSTRAINT `FKi31ay2wj2odp6ij5uvfunmk0y` FOREIGN KEY (`inventory_id`) REFERENCES `inventory` (`inventory_id`),
   CONSTRAINT `FKpekyhxlpp2g4l0emd9vj9qjvc` FOREIGN KEY (`fare_id`) REFERENCES `fare` (`fare_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 BEGIN;
-INSERT INTO `flight` VALUES (1, 'CHENNAI', '2 hrs 15 mins', '2021-05-26', 'AI-840', '02:12:00', 'DELHI', 2, 3, 8);
-INSERT INTO `flight` VALUES (9, 'HYDERABAD', '2 hrs 45 mins', '2021-05-26', 'AI-850', '01:15:00', 'DELHI', 10, 5, 11);
-INSERT INTO `flight` VALUES (12, 'MUMBAI', '2 hrs 50 mins', '2021-05-26', 'AI-860', '02:30:00', 'CHENNAI', 13, 6, 14);
-INSERT INTO `flight` VALUES (15, 'HYDERABAD', '1 hrs 45 mins', '2021-05-18', 'AI-870', '02:45:00', 'PUNE', 16, 7, 17);
-INSERT INTO `flight` VALUES (18, 'PORTBLAIR', '3 hrs 00 mins', '2021-05-21', '6E-6684', '03:00:00', 'CHENNAI', 19, 20, 25);
-INSERT INTO `flight` VALUES (26, 'DELHI', '3 hrs 15 mins', '2021-05-26', '6E-6685', '03:15:00', 'BENGULURU', 27, 22, 28);
-INSERT INTO `flight` VALUES (29, 'PUNE', '3 hrs 07 mins', '2021-05-24', '6E-6686', '03:15:00', 'DELHI', 30, 23, 31);
-INSERT INTO `flight` VALUES (32, 'MANGALORE', '3 hrs 30 mins', '2021-06-18', '6E-6687', '03:15:00', 'HYDERABAD', 33, 24, 34);
-INSERT INTO `flight` VALUES (35, 'AHMADABAD', '6 hrs 00 mins', '2021-05-13', 'I5-755', '04:30:00', 'MUMBAI', 36, 37, 42);
-INSERT INTO `flight` VALUES (43, 'KOLKATA', '3 hrs 15 mins', '2021-05-27', 'I5-756', '04:45:00', 'HYDERABAD', 44, 39, 45);
-INSERT INTO `flight` VALUES (46, 'DELHI', '1 hrs 00 mins', '2021-05-26', 'I5-757', '07:45:00', 'KOLKATA', 47, 40, 48);
-INSERT INTO `flight` VALUES (49, 'MUMBAI', '1 hrs 20 mins', '2021-02-26', 'SG-434', '11:45:00', 'DELHI', 50, 51, 56);
-INSERT INTO `flight` VALUES (57, 'CHENNAI', '2 hrs 10 mins', '2021-05-26', 'SG-435', '02:45:00', 'DELHI', 58, 55, 59);
-INSERT INTO `flight` VALUES (60, 'CHENNAI', '2 hrs 05 mins', '2021-05-26', 'UK-830', '10:15:00', 'DELHI', 61, 62, 67);
-INSERT INTO `flight` VALUES (68, 'CHENNAI', '2 hrs 14 mins', '2021-05-26', 'UK-831', '11:30:00', 'DELHI', 69, 64, 70);
-INSERT INTO `flight` VALUES (71, 'CHENNAI', '2 hrs 12 mins', '2021-05-17', 'UK-832', '11:55:00', 'DELHI', 72, 65, 73);
-INSERT INTO `flight` VALUES (74, 'CHENNAI', '1 hrs 55 mins', '2021-05-23', 'UK-833', '11:55:00', 'DELHI', 75, 66, 76);
-INSERT INTO `flight` VALUES (77, 'CHENNAI', '2 hrs 10 mins', '2021-05-26', '2T-518', '10:15:00', 'DELHI', 78, 79, 84);
-INSERT INTO `flight` VALUES (85, 'CHENNAI', '2 hrs 22 mins', '2021-05-26', '2T-519', '19:35:00', 'DELHI', 86, 81, 87);
-INSERT INTO `flight` VALUES (88, 'CHENNAI', '1 hrs 45 mins', '2021-05-26', '2T-520', '06:15:00', 'DELHI', 89, 82, 90);
-INSERT INTO `flight` VALUES (91, 'CHENNAI', '1 hrs 55 mins', '2021-05-26', '2T-521', '22:45:00', 'DELHI', 92, 83, 93);
+INSERT INTO `flight` VALUES (1, 'CHENNAI', '2 hrs 15 mins', '2021-06-26', 'AI-840', '02:12:00', 'DELHI', 2, 3, 8);
+INSERT INTO `flight` VALUES (9, 'HYDERABAD', '2 hrs 45 mins', '2021-06-26', 'AI-850', '01:15:00', 'DELHI', 10, 5, 11);
+INSERT INTO `flight` VALUES (12, 'MUMBAI', '2 hrs 50 mins', '2021-06-26', 'AI-860', '02:30:00', 'CHENNAI', 13, 6, 14);
+INSERT INTO `flight` VALUES (15, 'HYDERABAD', '1 hrs 45 mins', '2021-06-18', 'AI-870', '02:45:00', 'PUNE', 16, 7, 17);
+INSERT INTO `flight` VALUES (18, 'PORTBLAIR', '3 hrs 00 mins', '2021-06-21', '6E-6684', '03:00:00', 'CHENNAI', 19, 20, 25);
+INSERT INTO `flight` VALUES (26, 'DELHI', '3 hrs 15 mins', '2021-06-26', '6E-6685', '03:15:00', 'BENGULURU', 27, 22, 28);
+INSERT INTO `flight` VALUES (29, 'PUNE', '3 hrs 07 mins', '2021-06-24', '6E-6686', '03:15:00', 'DELHI', 30, 23, 31);
+INSERT INTO `flight` VALUES (32, 'MANGALORE', '3 hrs 30 mins', '2021-07-18', '6E-6687', '03:15:00', 'HYDERABAD', 33, 24, 34);
+INSERT INTO `flight` VALUES (35, 'AHMADABAD', '6 hrs 00 mins', '2021-06-13', 'I5-755', '04:30:00', 'MUMBAI', 36, 37, 42);
+INSERT INTO `flight` VALUES (43, 'KOLKATA', '3 hrs 15 mins', '2021-06-27', 'I5-756', '04:45:00', 'HYDERABAD', 44, 39, 45);
+INSERT INTO `flight` VALUES (46, 'DELHI', '1 hrs 00 mins', '2021-06-26', 'I5-757', '07:45:00', 'KOLKATA', 47, 40, 48);
+INSERT INTO `flight` VALUES (49, 'MUMBAI', '1 hrs 20 mins', '2021-08-26', 'SG-434', '11:45:00', 'DELHI', 50, 51, 56);
+INSERT INTO `flight` VALUES (57, 'CHENNAI', '2 hrs 10 mins', '2021-06-26', 'SG-435', '02:45:00', 'DELHI', 58, 55, 59);
+INSERT INTO `flight` VALUES (60, 'CHENNAI', '2 hrs 05 mins', '2021-06-26', 'UK-830', '10:15:00', 'DELHI', 61, 62, 67);
+INSERT INTO `flight` VALUES (68, 'CHENNAI', '2 hrs 14 mins', '2021-06-26', 'UK-831', '11:30:00', 'DELHI', 69, 64, 70);
+INSERT INTO `flight` VALUES (71, 'CHENNAI', '2 hrs 12 mins', '2021-06-17', 'UK-832', '11:55:00', 'DELHI', 72, 65, 73);
+INSERT INTO `flight` VALUES (74, 'CHENNAI', '1 hrs 55 mins', '2021-06-23', 'UK-833', '11:55:00', 'DELHI', 75, 66, 76);
+INSERT INTO `flight` VALUES (77, 'CHENNAI', '2 hrs 10 mins', '2021-06-26', '2T-518', '10:15:00', 'DELHI', 78, 79, 84);
+INSERT INTO `flight` VALUES (85, 'CHENNAI', '2 hrs 22 mins', '2021-06-26', '2T-519', '19:35:00', 'DELHI', 86, 81, 87);
+INSERT INTO `flight` VALUES (88, 'CHENNAI', '1 hrs 45 mins', '2021-06-26', '2T-520', '06:15:00', 'DELHI', 89, 82, 90);
+INSERT INTO `flight` VALUES (91, 'CHENNAI', '1 hrs 55 mins', '2021-06-26', '2T-521', '22:45:00', 'DELHI', 92, 83, 93);
 COMMIT;
 
 
@@ -297,9 +298,9 @@ COMMIT;
 
 DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE `inventory` (
-  `inv_id` int(11) NOT NULL,
-  `count` int(11) NOT NULL,
-  PRIMARY KEY (`inv_id`)
+  `inventory_id` int(11) NOT NULL,
+  `available_seats` int(11) NOT NULL,
+  PRIMARY KEY (`inventory_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
