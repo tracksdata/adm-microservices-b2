@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cts.pss.entity.Flight;
-import com.cts.pss.entity.FlightSearchService;
 import com.cts.pss.model.SearchQuery;
+import com.cts.pss.service.FlightSearchService;
 
 @RestController
 @RequestMapping("api/pss/search")
@@ -35,6 +35,18 @@ public class FlightSearchRestController {
 		
 		
 		    return searchService.findFlights(origin,destination,flightDate,travellers);
+	}
+	
+	
+	@GetMapping("/find/{origin}/{destination}/{flightDate}/{flightNumber}")
+	public Flight findAllFlightsV2(
+			@PathVariable String origin,
+			@PathVariable String destination,
+			@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate flightDate,
+			@PathVariable String flightNumber){
+		
+		
+		    return searchService.findByOriginAndDestinationAndFlightDateAndFlightNumber(origin,destination,flightDate,flightNumber);
 	}
 	
 
