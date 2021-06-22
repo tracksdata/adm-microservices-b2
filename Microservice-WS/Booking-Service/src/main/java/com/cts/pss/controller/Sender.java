@@ -19,5 +19,13 @@ public class Sender {
 		System.out.println(">>>> Booking Details Sent to SEARCH-SERVICE <<<<");
 
 	}
+	
+	public void rescheduleFlightInformation(Map<String, Object> oldFlightDetails) {
+		System.out.println(">>>> BOOKING-SERVICE <<<<");
+		System.out.println(">>>> Sending Old Flight Details to SEARCH-SERVICE <<<<<");
+		rt.convertAndSend("InventoryQ-Update", oldFlightDetails);
+		System.out.println(">>>> Old Flight Details Sent to SEARCH-SERVICE <<<<");
+
+	}
 
 }

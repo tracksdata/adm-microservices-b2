@@ -23,6 +23,11 @@ public class Receiver {
 		return new Queue("InventoryQ",false);
 	}
 	
+	@Bean
+	public Queue myQ2() {
+		return new Queue("InventoryQ-Update",false);
+	}
+	
 	@RabbitListener(queues = "InventoryQ")
 	public void updateInventory(Map<String, Object> bookingDetails) {
 		System.out.println(">>>>>> SEARCH-SERVICE RECEIVER <<<<<<");
@@ -31,9 +36,19 @@ public class Receiver {
 		System.out.println("------------------------------");
 		searchService.updateInventory((int)bookingDetails.get("ID"),(int) bookingDetails.get("SEATS_BOOKED"));
 		
-		
+	}
+	
+	@RabbitListener(queues = "InventoryQ-Update")
+	public void updateInventory1(Map<String, Object> bookingDetails) {
+		System.out.println(">>>>>> SEARCH-SERVICE RECEIVER FOR RESCHEDULE<<<<<<");
+		System.out.println(">>>>> Booking Details <<<<<");
+		System.out.println(bookingDetails);
+		System.out.println("------------------------------");
+		searchService.updateRescheeduledFlightInventory((int)bookingDetails.get("ID"),(int) bookingDetails.get("SEATS_UPDATED"));
 		
 	}
+	
+	
 	
 	
 	

@@ -35,6 +35,31 @@ public class FlightSearchServiceImpl implements FlightSearchService {
 
 	}
 	
+	
+	//Get invoked only when booking is done from Booking-Service
+		@Override
+		public void updateRescheeduledFlightInventory(int flightId, int updated_seats) {
+
+			System.out.println(">>>>>>> SEARCH-SERVICE:::: SEARCHSERVICEIMPL <<<<<<<");
+			System.out.println(">>>>>>> UPDATING INVENTORY INFORMATION IN SEARCH-SERVICE");
+
+			Flight flight = flightDao.findById(flightId).orElse(null);
+			Inventory inv = flight.getInventory();
+			inv.setAvailableSeats(inv.getAvailableSeats() + updated_seats);
+			flight.setInventory(inv);
+			flightDao.save(flight);
+			System.out.println(">>>>>>> INVENTORY UPDATE COMPLETED <<<<<<");
+
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public Flight findByOriginAndDestinationAndFlightDateAndFlightNumber(String origin, String destination,
 			LocalDate flightDate, String flightNumber) {

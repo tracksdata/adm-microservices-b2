@@ -20,4 +20,6 @@ public interface FlightSearchService {
 	Flight findByOriginAndDestinationAndFlightDateAndFlightNumber(String origin, String destination,
 			LocalDate flightDate, String flightNumber);
 
+	void updateRescheeduledFlightInventory(int flightId, int updated_seats);
+
 }

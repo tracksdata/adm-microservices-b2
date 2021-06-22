@@ -1,6 +1,8 @@
 package com.cts.pss.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,20 +19,45 @@ import com.cts.pss.service.BookingServiceImpl;
 @RequestMapping("api/pss/booking")
 @CrossOrigin
 public class BookingRestController {
-	
+
 	@Autowired
 	private BookingServiceImpl bookingService;
-
-	@PostMapping
-	public BookingRecord f1(@RequestBody SearchQuery qrery) {
+	
+	
+	
+	
+	
+	// Reschedule flight
+	
+	@GetMapping("/{bookingId}/{flightId}")
+	public BookingRecord rescheduleFight(@PathVariable int bookingId,@PathVariable int flightId) {
 		
-		return bookingService.bookFlight(qrery);
+		if(findBookingById(bookingId)==null) {
+			return null;
+		}
+		
+		return bookingService.rescheduleBooking(bookingId, flightId);
 		
 	}
-	
+
+	@PostMapping
+	public ResponseEntity<?> f1(@RequestBody SearchQuery qrery) {
+
+		// ????
+
+		Object br = bookingService.bookFlight(qrery);
+		
+		if(!(br instanceof BookingRecord)) {
+			return new ResponseEntity<>(br, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(br, HttpStatus.OK);
+
+	}
+
 	@GetMapping("/{bookingId}")
 	public BookingRecord findBookingById(@PathVariable int bookingId) {
 		return bookingService.getBookingDetails(bookingId);
 	}
-	
+
 }
