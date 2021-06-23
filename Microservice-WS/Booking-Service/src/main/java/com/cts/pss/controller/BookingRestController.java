@@ -1,9 +1,12 @@
 package com.cts.pss.controller;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,37 +25,51 @@ public class BookingRestController {
 
 	@Autowired
 	private BookingServiceImpl bookingService;
-	
-	
-	
-	
-	
+
 	// Reschedule flight
-	
+
 	@GetMapping("/{bookingId}/{flightId}")
-	public BookingRecord rescheduleFight(@PathVariable int bookingId,@PathVariable int flightId) {
-		
-		if(findBookingById(bookingId)==null) {
+	public BookingRecord rescheduleFight(@PathVariable int bookingId, @PathVariable int flightId) {
+
+		if (findBookingById(bookingId) == null) {
 			return null;
 		}
-		
+
 		return bookingService.rescheduleBooking(bookingId, flightId);
-		
 	}
 
 	@PostMapping
 	public ResponseEntity<?> f1(@RequestBody SearchQuery qrery) {
 
 		// ????
-
 		Object br = bookingService.bookFlight(qrery);
-		
-		if(!(br instanceof BookingRecord)) {
+
+		if (!(br instanceof BookingRecord)) {
 			return new ResponseEntity<>(br, HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<>(br, HttpStatus.OK);
 
+	}
+	
+	
+	@DeleteMapping
+	public BookingRecord deleteCustomPassengers(@RequestBody SearchQuery query) {
+		System.out.println(">>>>> Booking ID:::: "+query.getBookingId());
+		System.out.println(">>>>> CoPassengers SIze:: "+query.getCoPassengers().size());
+		return bookingService.customCancelBooking(query.getBookingId(), query.getCoPassengers());
+	}
+
+	// delete booking by booking ID
+
+	@DeleteMapping("/{bookingId}")
+	public String deleteBookingByBookingId(@PathVariable int bookingId) {
+		boolean status = bookingService.deleteBookingById(bookingId);
+		if (status) {
+			return "Booking ID " + bookingId + " is Deleted ";
+		} else {
+			return "Booking ID " + bookingId + " Not Found";
+		}
 	}
 
 	@GetMapping("/{bookingId}")

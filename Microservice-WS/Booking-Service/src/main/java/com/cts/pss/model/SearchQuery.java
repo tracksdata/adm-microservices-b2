@@ -1,7 +1,9 @@
 package com.cts.pss.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.cts.pss.entity.Co_Passenger;
 import com.cts.pss.entity.Passenger;
 
 public class SearchQuery {
@@ -11,8 +13,32 @@ public class SearchQuery {
 	private String destination;
 	private LocalDate flightDate;
 	private int travellers;
+	
+	private int bookingId;
+	
+	private List<Co_Passenger> coPassengers;
+	
+	
 
 	private Passenger passengers;
+	
+	
+
+	public int getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
+	}
+
+	public List<Co_Passenger> getCoPassengers() {
+		return coPassengers;
+	}
+
+	public void setCoPassengers(List<Co_Passenger> coPassengers) {
+		this.coPassengers = coPassengers;
+	}
 
 	public Passenger getPassengers() {
 		return passengers;

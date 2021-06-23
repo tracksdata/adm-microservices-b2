@@ -56,7 +56,12 @@ public class FlightSearchServiceImpl implements FlightSearchService {
 	
 	
 	
-	
+		// Schedule a New Flight
+		@Override
+		public Flight scheduleNewFlight(Flight flight) {
+			return flightDao.save(flight);
+
+		}
 	
 	
 	

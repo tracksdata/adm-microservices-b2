@@ -22,4 +22,6 @@ public interface FlightSearchService {
 
 	void updateRescheeduledFlightInventory(int flightId, int updated_seats);
 
+	Flight scheduleNewFlight(Flight flight);
+
 }

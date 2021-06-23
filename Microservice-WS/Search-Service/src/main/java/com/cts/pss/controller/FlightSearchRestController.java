@@ -25,30 +25,27 @@ public class FlightSearchRestController {
 
 	@Autowired
 	private FlightSearchService searchService;
-	
+
 	@GetMapping("/{origin}/{destination}/{flightDate}/{travellers}")
-	public List<Flight> findAllFlightsV1(
-			@PathVariable String origin,
-			@PathVariable String destination,
-			@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate flightDate,
-			@PathVariable int travellers){
-		
-		
-		    return searchService.findFlights(origin,destination,flightDate,travellers);
+	public List<Flight> findAllFlightsV1(@PathVariable String origin, @PathVariable String destination,
+			@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate flightDate, @PathVariable int travellers) {
+
+		return searchService.findFlights(origin, destination, flightDate, travellers);
 	}
-	
-	
+
 	@GetMapping("/find/{origin}/{destination}/{flightDate}/{flightNumber}")
-	public Flight findAllFlightsV2(
-			@PathVariable String origin,
-			@PathVariable String destination,
-			@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate flightDate,
-			@PathVariable String flightNumber){
-		
-		
-		    return searchService.findByOriginAndDestinationAndFlightDateAndFlightNumber(origin,destination,flightDate,flightNumber);
+	public Flight findAllFlightsV2(@PathVariable String origin, @PathVariable String destination,
+			@PathVariable @DateTimeFormat(iso = ISO.DATE) LocalDate flightDate, @PathVariable String flightNumber) {
+
+		return searchService.findByOriginAndDestinationAndFlightDateAndFlightNumber(origin, destination, flightDate,
+				flightNumber);
 	}
-	
+
+	// schedule new Flight
+	@PostMapping("/newFlight")
+	public Flight scheduleNewFlight(@RequestBody Flight newFlight) {
+		return searchService.scheduleNewFlight(newFlight);
+	}
 
 	@PostMapping
 	public List<Flight> findAllFlights(@RequestBody SearchQuery query) {
