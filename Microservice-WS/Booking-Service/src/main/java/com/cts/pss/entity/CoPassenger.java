@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Co_Passenger {
+public class CoPassenger {
 	
 	@Id
 	@GeneratedValue
