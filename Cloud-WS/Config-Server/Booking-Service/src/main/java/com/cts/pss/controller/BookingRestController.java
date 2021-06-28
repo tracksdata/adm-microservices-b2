@@ -1,6 +1,7 @@
 package com.cts.pss.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ import com.cts.pss.service.BookingServiceImpl;
 @RestController
 @RequestMapping("api/pss/booking")
 @CrossOrigin
+@RefreshScope
 public class BookingRestController {
 
 	@Autowired
